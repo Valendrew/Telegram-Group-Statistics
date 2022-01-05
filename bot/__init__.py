@@ -14,8 +14,10 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-updater = Updater(BOT_TOKEN)
+TOKEN = "TOKEN"
+PORT = int(os.environ.get('PORT', '8443'))
+
+updater = Updater(TOKEN)
 dispatcher = updater.dispatcher
 
 MongoDB.initialize()

@@ -2,7 +2,7 @@ import datetime as dt
 from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, CallbackContext, JobQueue, MessageHandler
 from telegram import ParseMode, InlineKeyboardMarkup, Update, TelegramError
 
-from . import updater, dispatcher, LOGGER
+from . import updater, dispatcher, LOGGER, TOKEN, PORT
 from .modules import chat_settings, formatting, manage_stats, keyboard_handler
 from .utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
 
@@ -173,7 +173,9 @@ def main():
 
     dispatcher.add_error_handler(error)
 
-    updater.start_polling()
+    updater.start_webhook(
+        listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url="https://telegram-group-statistics.herokuapp.com/" + TOKEN
+    )
     updater.idle()
 
 
