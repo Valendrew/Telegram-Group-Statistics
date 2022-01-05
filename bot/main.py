@@ -1,11 +1,29 @@
 import datetime as dt
-from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, CallbackContext, JobQueue, MessageHandler
+from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, CallbackContext, JobQueue, MessageHandler, Updater
 from telegram import ParseMode, InlineKeyboardMarkup, Update, TelegramError
+import os
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
-from . import updater, dispatcher, LOGGER, TOKEN, PORT
-from .modules import chat_settings, formatting, manage_stats, keyboard_handler
-from .utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
+from mongodb import MongoDB
+from modules import chat_settings, formatting, manage_stats, keyboard_handler
+from utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
 
+# logging_handler = [TimedRotatingFileHandler("log.txt", when="D", interval=14, backupCount=6), logging.StreamHandler()]
+logging_handler = [logging.StreamHandler()]
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=logging_handler,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
+
+TOKEN = os.environ.get("BOT_TOKEN")
+PORT = int(os.environ.get('PORT', '8443'))
+
+
+
+MongoDB.initialize()
 
 # Filtri per Handler
 filters_callback = {"messages": Filters.chat(), "videonotes": Filters.chat(), "voices": Filters.chat()}
@@ -148,6 +166,9 @@ def change_single_property(chat_id: int, prop: str, value: bool, job_queue: JobQ
 
 
 def main():
+    updater = Updater(TOKEN)
+    dispatcher = updater.dispatcher
+    
     job_queue = updater.job_queue
     enable_user_properties(job_queue)
 

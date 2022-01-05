@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton
 from typing import List
 
-from ..utils import BOOL_EMOJI_CONVERTER, BACK_MENU_BUTTON, Chat
+from utils import BOOL_EMOJI_CONVERTER, BACK_MENU_BUTTON, Chat
 
 
 def format_info_log(text: str, chat_id: int, full_name: str) -> str:

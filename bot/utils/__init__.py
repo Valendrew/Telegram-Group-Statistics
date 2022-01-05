@@ -1,5 +1,5 @@
-from .models import Chat, User, Statistic
-from .misc import (
+from utils.models import Chat, User, Statistic
+from utils.misc import (
     MAIN_MENU_KEYBOARD,
     BACK_MENU_BUTTON,
     PROPERTY_TRANSLATION,
