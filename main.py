@@ -12,7 +12,7 @@ from bot.utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
 # logging_handler = [TimedRotatingFileHandler("log.txt", when="D", interval=14, backupCount=6), logging.StreamHandler()]
 logging_handler = [logging.StreamHandler()]
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     handlers=logging_handler,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
