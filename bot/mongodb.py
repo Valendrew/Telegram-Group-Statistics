@@ -4,7 +4,7 @@ from pymongo.cursor import Cursor
 import os
 from pydantic import parse_obj_as
 
-from utils import Chat, User, Statistic, LIMIT_USER_STAT
+from bot.utils import Chat, User, Statistic, LIMIT_USER_STAT
 
 class MongoDB:
     DATABASE: Database = None

@@ -2,8 +2,8 @@ import datetime as dt
 from pydantic import ValidationError
 from pymongo.errors import OperationFailure
 
-from utils import User, Statistic, TIME_FORMAT, PROPERTY_TRANSLATION
-from mongodb import MongoDB
+from bot.utils import User, Statistic, TIME_FORMAT, PROPERTY_TRANSLATION
+from bot.mongodb import MongoDB
 
 
 def get_statistics(chat_id: int, date: str) -> str:

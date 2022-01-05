@@ -5,9 +5,9 @@ import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-from mongodb import MongoDB
-from modules import chat_settings, formatting, manage_stats, keyboard_handler
-from utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
+from bot.mongodb import MongoDB
+from bot.modules import chat_settings, formatting, manage_stats, keyboard_handler
+from bot.utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
 
 # logging_handler = [TimedRotatingFileHandler("log.txt", when="D", interval=14, backupCount=6), logging.StreamHandler()]
 logging_handler = [logging.StreamHandler()]
