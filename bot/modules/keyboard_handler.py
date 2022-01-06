@@ -2,8 +2,8 @@ from telegram import InlineKeyboardButton
 from typing import List
 import datetime
 
-from bot.modules import chat_settings, formatting
-from bot.utils import (
+from . import chat_settings, formatting
+from ..utils import (
     PROPERTY_TRANSLATION,
     BOOL_EMOJI_CONVERTER,
     MAIN_MENU_KEYBOARD,

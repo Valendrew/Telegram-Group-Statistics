@@ -1,8 +1,8 @@
 from pydantic import parse_obj_as, ValidationError
 from pymongo.errors import DuplicateKeyError, OperationFailure
 
-from bot.mongodb import MongoDB
-from bot.utils import Chat
+from ..mongodb import MongoDB
+from ..utils import Chat
 
 
 def create_new_chat(chat_id: int) -> Chat:

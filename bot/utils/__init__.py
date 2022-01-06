@@ -1,5 +1,5 @@
-from bot.utils.models import Chat, User, Statistic
-from bot.utils.misc import (
+from .models import Chat, User, Statistic
+from .misc import (
     MAIN_MENU_KEYBOARD,
     BACK_MENU_BUTTON,
     PROPERTY_TRANSLATION,

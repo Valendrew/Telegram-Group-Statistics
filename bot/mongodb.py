@@ -4,7 +4,7 @@ from pymongo.cursor import Cursor
 import os
 from pydantic import parse_obj_as
 
-from bot.utils import Chat, User, Statistic, LIMIT_USER_STAT
+from .utils import Chat, User, Statistic, LIMIT_USER_STAT
 
 class MongoDB:
     DATABASE: Database = None
@@ -18,8 +18,13 @@ class MongoDB:
 
     @staticmethod
     def add_user(user: User):
-        result = MongoDB.DATABASE[MongoDB.USERS].update_one({"_id": user.id}, update={"$set": user.dict(by_alias=True)}, upsert=True)
+        MongoDB.DATABASE[MongoDB.USERS].update_one({"_id": user.id}, update={"$set": user.dict(by_alias=True)}, upsert=True)
 
+    @staticmethod
+    def find_user(user_id: int) -> User:
+        user = parse_obj_as(User, MongoDB.DATABASE[MongoDB.USERS].find_one({"_id": user_id}))
+        return user
+    
     @staticmethod
     def add_chat(chat: Chat):
         result = MongoDB.DATABASE[MongoDB.CHATS].update_one({"_id": chat.id}, update={"$set": chat.dict(by_alias=True)}, upsert=True)

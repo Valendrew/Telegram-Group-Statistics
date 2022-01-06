@@ -1,36 +1,16 @@
 import datetime as dt
 from telegram.ext import CommandHandler, Filters, CallbackQueryHandler, CallbackContext, JobQueue, MessageHandler, Updater
 from telegram import ParseMode, InlineKeyboardMarkup, Update, TelegramError
-import os
-import logging
-from logging.handlers import TimedRotatingFileHandler
 
-from bot.mongodb import MongoDB
-from bot.modules import chat_settings, formatting, manage_stats, keyboard_handler
-from bot.utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
-
-# logging_handler = [TimedRotatingFileHandler("log.txt", when="D", interval=14, backupCount=6), logging.StreamHandler()]
-logging_handler = [logging.StreamHandler()]
-logging.basicConfig(
-    level=logging.WARNING,
-    handlers=logging_handler,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
-
-TOKEN = os.environ.get("BOT_TOKEN")
-PORT = int(os.environ.get('PORT', '8443'))
-
-
-
-MongoDB.initialize()
+from .modules import chat_settings, formatting, manage_statistics, keyboard_handler
+from .utils import MAIN_MENU_KEYBOARD, TIMEZONE, DATE_FORMAT
+from . import LOGGER, TOKEN
 
 # Filtri per Handler
 filters_callback = {"messages": Filters.chat(), "videonotes": Filters.chat(), "voices": Filters.chat()}
 
-
 def statistic_message(chat_id: int, date: str):
-    message = manage_stats.get_statistics(chat_id, date)
+    message = manage_statistics.get_statistics(chat_id, date)
     if message == "":
         return f"Nessuna statistica disponibile il *{date}*"
     else:
@@ -113,7 +93,7 @@ def callback_counter_messages(update: Update, context: CallbackContext):
         count = update.message.video_note.duration
 
     try:
-        manage_stats.set_statistic_counter(count, category, chat_id, user_id, user_full_name, tz_date)
+        manage_statistics.set_statistic_counter(count, category, chat_id, user_id, user_full_name, tz_date)
     except NameError as exc:
         raise RuntimeError from exc
 
@@ -194,9 +174,7 @@ def main():
 
     dispatcher.add_error_handler(error)
 
-    updater.start_webhook(
-        listen="0.0.0.0", port=PORT, url_path=TOKEN, webhook_url="https://telegram-group-statistics.herokuapp.com/" + TOKEN
-    )
+    updater.start_polling()
     updater.idle()
 
 

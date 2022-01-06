@@ -2,8 +2,8 @@ import datetime as dt
 from pydantic import ValidationError
 from pymongo.errors import OperationFailure
 
-from bot.utils import User, Statistic, TIME_FORMAT, PROPERTY_TRANSLATION
-from bot.mongodb import MongoDB
+from ..utils import User, Statistic, TIME_FORMAT, PROPERTY_TRANSLATION
+from ..mongodb import MongoDB
 
 
 def get_statistics(chat_id: int, date: str) -> str:
@@ -28,10 +28,11 @@ def get_category_statistics(category: str, chat_id: int, date: str) -> str:
             else:
                 count_format = stat.count
                 unit_count = "messaggi"
-            message += f"\n{stat.user_id} con {count_format} {unit_count}"
+            user = MongoDB.find_user(stat.user_id)
+            message += f"\n{user.full_name} con {count_format} {unit_count}"
         except ValidationError as exc:
             raise RuntimeError from exc
-    
+
     if message == "":
         return message
     else:
